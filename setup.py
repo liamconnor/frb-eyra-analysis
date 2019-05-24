@@ -10,7 +10,8 @@ VERSION = "%d.%d.%d" % (VERSION_MAJOR, VERSION_MINOR, VERSION_POINT)
 if VERSION_DEV:
     VERSION = VERSION + ".dev%d" % VERSION_DEV
 
-SCRIPTS = ["frb-eyra-analysis/blind_detection.py"]
+SCRIPTS = ["frb-eyra-analysis/blind_detection.py",
+           "./tests/test_blind_detection.py"]
 
 
 setup(
