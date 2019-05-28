@@ -13,7 +13,7 @@ from scipy import interpolate
 import optparse
 
 from frb_eyra_analysis import simulate_frb
-#import simpulse 
+import simpulse 
 from frb_eyra_analysis import tools 
 
 class DetectionDecision():
