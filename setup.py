@@ -10,14 +10,16 @@ VERSION = "%d.%d.%d" % (VERSION_MAJOR, VERSION_MINOR, VERSION_POINT)
 if VERSION_DEV:
     VERSION = VERSION + ".dev%d" % VERSION_DEV
 
-SCRIPTS = ["frb-eyra-analysis/blind_detection.py",
-           "./tests/test_blind_detection.py"]
+SCRIPTS = ["frb_eyra_analysis/blind_detection.py",
+           "frb_eyra_analysis/run_search_software.py",
+           "frb_eyra_analysis/run_amber_args.py",
+           "./tests/test_blind_detection.py", ]
 
 
 setup(
-    name = 'frb-eyra-analysis',
+    name = 'frb_eyra_analysis',
     version = VERSION,
-    packages = ['frb-eyra-analysis'],
+    packages = ['frb_eyra_analysis'],
     scripts = SCRIPTS,
     install_requires = ['numpy', 'matplotlib'],
 

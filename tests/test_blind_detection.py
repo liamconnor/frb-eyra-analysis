@@ -44,8 +44,8 @@ class TestDetectionDecision(unittest.TestCase):
         """ test that the decision array method runs 
         for different contours (box and gaussian)
         """
-        fn_truth = './examples/truth.txt'
-        fn_amber = './examples/amber_example.trigger'
+        fn_truth = '../frb_eyra_analysis/examples/truth.txt'
+        fn_amber = '../frb_eyra_analysis/examples/amber_example.trigger'
 
         blind_detection.get_decision_array(fn_truth, fn_amber, dmtarr_function='box', 
                                             freq_ref_truth=1400., freq_ref_cand=1400., mk_plot=False)
