@@ -5,7 +5,7 @@ import numpy as np
 import threading
 import glob
 
-import reader 
+from frb_eyra_analysis import reader 
 
 def get_header_info(fn_fil):
     data_fil_obj_skel, freq_arr, dt, header = reader.read_fil_data(fn_fil, start=0, stop=1)
