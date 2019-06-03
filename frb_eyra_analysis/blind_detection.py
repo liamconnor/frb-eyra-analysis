@@ -153,7 +153,6 @@ class DetectionDecision():
 
         for ii in range(ntrig):
             times = np.linspace(t_arr[ii]-t_err[ii], t_arr[ii]+t_err[ii], 10)
-
             plt.fill_between(times, dm_low[ii].repeat(10), dm_high[ii].repeat(10), alpha=0.4)
 
         plt.xlabel('Time [s]', fontsize=15)
@@ -318,10 +317,6 @@ if __name__=='__main__':
                         help='Comma-separated list of reference frequencies for candidate files [MHz]', \
                         default='1400', callback=foo_callback, action='callback')
 
-    parser.add_option('--freq_ref_truth', dest='freq_ref_truth', type='float', \
-                        help='reference frequency of arrival times in truth file [MHz]', \
-                        default=1400.)
-
     parser.add_option('--mk_plot', action='store_true',
                         help="Plot each candidate guess", default=False)
 
@@ -337,15 +332,16 @@ if __name__=='__main__':
 
     fn_truth_arr = np.genfromtxt(fn_truth)
     ntrig = len(fn_truth_arr)
-
+    freq_ref_truth = fn_truth_arr[0, -1]
+    
     header = 'DM     Sigma     Time (s)   Sample  Downfact  Width_intrins  With_obs  Spec_ind  Scat_tau_ref  Freq_ref'
     fmt = '%5.3f    %3.2f    %5.5f    %9d    %d    %5f    %5f    %2f    %1.5f    %4.2f   '
 
     dec_arr_full = []    
 
     if len(options.fn_cand_files)!=len(options.freq_ref_cand_files):
-        print("File/freq mismatch: Assuming all candidate reference frequencies are 1400 MHz")
-        freq_ref_cand = 1400.*np.ones([len(options.fn_cand_files)])
+        print("File/freq mismatch: Assuming all candidate reference frequencies are %4.1f MHz" % freq_ref_truth)
+        freq_ref_cand = freq_ref_truth*np.ones([len(options.fn_cand_files)])
     else:
         freq_ref_cand = np.array(options.freq_ref_cand_files).astype(float)
 
@@ -353,7 +349,7 @@ if __name__=='__main__':
     for ii, fn_cand in enumerate(options.fn_cand_files):
         print("\nProcessing %s" % fn_cand)
         dec_arr = get_decision_array(fn_truth, fn_cand, dmtarr_function=options.dmtarr_function, 
-                                    freq_ref_truth=options.freq_ref_truth,
+                                    freq_ref_truth=freq_ref_truth,
                                     freq_ref_cand=freq_ref_cand[ii], mk_plot=options.mk_plot)
 
         dec_arr_full.append(dec_arr)
