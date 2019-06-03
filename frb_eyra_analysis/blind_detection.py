@@ -296,10 +296,10 @@ if __name__=='__main__':
     def foo_callback(option, opt, value, parser):
         setattr(parser.values, option.dest, value.split(','))
 
-    parser = optparse.OptionParser(prog="inject_frb.py", \
+    parser = optparse.OptionParser(prog="blind_detection.py", \
                         version="", \
-                        usage="%prog FN_FILTERBANK OUTDIR [OPTIONS]", \
-                        description="Inject FRBs into filterbank data")
+                        usage="%prog FN_TRUTH [OPTIONS]", \
+                        description="Compare FRB search output with truth file")
 
     parser.add_option('--fn_cand_files', type='string', action='callback', callback=foo_callback)
 
