@@ -277,15 +277,16 @@ def get_decision_array(fn_truth, fn_cand, dmtarr_function='box',
             fig = plt.figure()
             ind = np.where( (np.abs(1-dm_cand/dm_truth[ii])<0.5) & (np.abs(t_cand-t_truth[ii])<5) )[0]
             times = np.linspace(t_truth[ii]-1.0, t_truth[ii]+1.0, 10)
-            dm_min = np.ones([10])*dm_truth[ii]*(1-0.5) - 50.
-            dm_max = np.ones([10])*dm_truth[ii]*1.5 + 50
+            dm_min = max(0, dm_truth[ii]*(1-0.5) - 50.)
+            dm_min *= np.ones([10])
+            dm_max = np.ones([10])*dm_truth[ii]*(1+0.5) + 50
             plt.fill_between(times, dm_min, dm_max, alpha=0.15, color='C1')
             plt.scatter(t_truth[ii], dm_truth[ii], s=10, marker='*', color='red')
             plt.scatter(t_cand[ind], dm_cand[ind], sig_cand[ind], color='k', alpha=0.25)
             plt.scatter(t_guess, dm_guess, 20, color='C6', alpha=0.85, marker='s', edgecolor='k')
             plt.contour(dmtarr, 0.1, color='C0', extent=extent)
             plt.xlim(t_truth[ii]-5, t_truth[ii]+5)
-            plt.ylim(dm_truth[ii]*0.25, dm_truth[ii]*2)
+            plt.ylim(0.25*dm_truth[ii]-60., 1.75*dm_truth[ii]+60.)
             plt.grid('on', alpha=0.5)
             plt.xlabel('Time [s]', fontsize=15)
             plt.ylabel('DM', fontsize=15)
@@ -338,7 +339,7 @@ if __name__=='__main__':
     ntrig = len(fn_truth_arr)
     freq_ref_truth = fn_truth_arr[0, -1]
     
-    header = 'DM      Sigma    Time (s)   Sample  Downfact  Width_intrins  With_obs  Spec_ind  Scat_tau_ref  Freq_ref '
+    header = 'DM      Sigma    Time (s)   Sample  Downfact  Width_i  With_obs  Spec_ind  Scat_tau_ref  Freq_ref '
     fmt = '%8.3f  %5.2f  %8.4f %9d %5d  %1.6f    %5f    %5.2f    %1.4f  %8.2f   '
 
     dec_arr_full = []    

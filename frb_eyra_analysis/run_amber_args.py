@@ -92,7 +92,7 @@ def run_amber_from_dir(fns, nbatch=1000, hdr=362, rfi_option="-rfim",
         chan_width = np.abs(header['foff'])
         tsamp = header['tsamp']
         min_freq = freq_arr.min()
-
+        print(min_freq, chan_width)
         outfn = outdir + fn.split('/')[-1].strip('.fil') + 'amber'
         outfn = './output'
         execute_amber(fn, nbatch=nbatch, hdr=hdr,
