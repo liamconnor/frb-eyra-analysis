@@ -8,9 +8,11 @@ DM and arrival times.
 import sys
 
 import numpy as np
-import matplotlib.pylab as plt
 from scipy import interpolate 
 import optparse
+import matplotlib as mpl
+mpl.use('Agg', warn=False)
+import matplotlib.pyplot as plt
 
 from frb_eyra_analysis import simulate_frb
 from frb_eyra_analysis import tools 
@@ -153,7 +155,7 @@ class DetectionDecision():
 
         for ii in range(ntrig):
             times = np.linspace(t_arr[ii]-t_err[ii], t_arr[ii]+t_err[ii], 10)
-            plt.fill_between(times, dm_low[ii].repeat(10), dm_high[ii].repeat(10), alpha=0.4)
+            plt.fill_between(times, dm_low[ii].repeat(10)-50., dm_high[ii].repeat(10)+50, alpha=0.4)
 
         plt.xlabel('Time [s]', fontsize=15)
         plt.ylabel('DM [pc cm**-3]', fontsize=15)
@@ -334,8 +336,8 @@ if __name__=='__main__':
     ntrig = len(fn_truth_arr)
     freq_ref_truth = fn_truth_arr[0, -1]
     
-    header = 'DM     Sigma     Time (s)   Sample  Downfact  Width_intrins  With_obs  Spec_ind  Scat_tau_ref  Freq_ref'
-    fmt = '%5.3f    %3.2f    %5.5f    %9d    %d    %5f    %5f    %2f    %1.5f    %4.2f   '
+    header = 'DM      Sigma    Time (s)   Sample  Downfact  Width_intrins  With_obs  Spec_ind  Scat_tau_ref  Freq_ref '
+    fmt = '%8.3f  %5.2f  %8.4f %9d %5d  %1.6f    %5f    %5.2f    %1.4f  %8.2f   '
 
     dec_arr_full = []    
 
@@ -355,7 +357,7 @@ if __name__=='__main__':
         dec_arr_full.append(dec_arr)
 
         header += 'code%d ' % ii
-        fmt += '%5d    '
+        fmt += '%5d '
 
     dec_arr_full = np.concatenate(dec_arr_full).reshape(-1, ntrig).transpose()
 
