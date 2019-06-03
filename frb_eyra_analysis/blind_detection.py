@@ -335,7 +335,7 @@ if __name__=='__main__':
     options, args = parser.parse_args()
     fn_truth = args[0]
 
-    fn_truth_arr = np.genfromtxt(fn_truth)
+    fn_truth_arr = np.genfromtxt(fn_truth, skip_header=1)
     ntrig = len(fn_truth_arr)
     freq_ref_truth = fn_truth_arr[0, -1]
     
