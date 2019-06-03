@@ -13,8 +13,12 @@ from scipy import interpolate
 import optparse
 
 from frb_eyra_analysis import simulate_frb
-import simpulse 
 from frb_eyra_analysis import tools 
+
+try:
+    import simpulse
+except:
+    print("simpulse package not available")
 
 class DetectionDecision():
     """ Class to decide if an FRB has been 
@@ -164,7 +168,14 @@ class DetectionDecision():
         with dimensions dm_err by t_err
         """
 
-        dm_stat = np.abs(1.-dm_arr/self._dm)
+        # if dm is low, use arithmetic test, 
+        # otherwise use geometric distance 
+        if dm_err*self._dm < 50.:
+            dm_stat = np.abs(self._dm - dm_arr)
+            dm_err = 50.0
+        else:
+            dm_stat = np.abs(1.-dm_arr/self._dm)
+
         t_stat = np.abs(self._t0 - t_arr)
 
         ind = np.where((dm_stat<dm_err) & (t_stat<t_err))[0]
@@ -327,8 +338,8 @@ if __name__=='__main__':
     fn_truth_arr = np.genfromtxt(fn_truth)
     ntrig = len(fn_truth_arr)
 
-    header = 'DM     Sigma     Time (s)   Sample  Downfact  Width_intrins  With_obs  Spec_ind  Scat_tau_ref '
-    fmt = '%5.3f    %3.2f    %5.5f    %9d    %d    %5f    %5f    %2f    %1.5f    '
+    header = 'DM     Sigma     Time (s)   Sample  Downfact  Width_intrins  With_obs  Spec_ind  Scat_tau_ref  Freq_ref'
+    fmt = '%5.3f    %3.2f    %5.5f    %9d    %d    %5f    %5f    %2f    %1.5f    %4.2f   '
 
     dec_arr_full = []    
 
@@ -351,10 +362,11 @@ if __name__=='__main__':
         fmt += '%5d    '
 
     dec_arr_full = np.concatenate(dec_arr_full).reshape(-1, ntrig).transpose()
+
     # Add the new result columns to truth txt file
     results_arr = np.concatenate([fn_truth_arr, dec_arr_full], axis=1)
     np.savetxt(options.fnout, results_arr, fmt=fmt, header=header)
-
+    print("Saved output to %s" % options.fnout)
 
 
 
