@@ -5,3 +5,5 @@ build
 *.fil
 *.py~
 *.pyc
+*dist
+*pdf
