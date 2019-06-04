@@ -357,13 +357,13 @@ if __name__=='__main__':
                                     freq_ref_truth=freq_ref_truth,
                                     freq_ref_cand=freq_ref_cand[ii], mk_plot=options.mk_plot)
 
+        print(dec_arr.shape)
         dec_arr_full.append(dec_arr)
 
         header += 'code%d ' % ii
         fmt += '%5d '
 
     dec_arr_full = np.concatenate(dec_arr_full).reshape(-1, ntrig).transpose()
-
     # Add the new result columns to truth txt file
     results_arr = np.concatenate([fn_truth_arr, dec_arr_full], axis=1)
     np.savetxt(options.fnout, results_arr, fmt=fmt, header=header)
