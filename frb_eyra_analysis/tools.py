@@ -282,20 +282,35 @@ def read_singlepulse(fn, max_rows=None, beam=None):
 
     return dm, sig, tt, downsample
 
-def homogenise_triggers(fn, dt, max_rows=None, freq_ref_in=1400., freq_ref_out=1400.):
+def homogenise_triggers(fn, dt, fnout='candidates', max_rows=None, 
+                        freq_ref_in=1400., freq_ref_out=1400.):
     dm, sig, tt, downsample = read_singlepulse(fn, max_rows=None, beam=None)
     tt += 4148*dm*(freq_ref_out**-2 - freq_ref_in**-2)
     ref_freq_arr = np.ones_like(dm)*freq_ref_out
 
-    fmt = '%5.2f  %8.3f  %8.2f  %3.5f  %8.2f'
+    fmt = '%5.2f  %8.3f  %8.2f  %3.7f  %8.2f'
+    
+    exe_dict = {'fredda': 'fredda', 
+                'cand' : 'heimdall', 
+                'singlepulse': 'presto', 
+                'trigger': 'amber',
+                '.bonsai':'.bonsai'
+                }
+
+    try:
+        exe = fn.split('.')[-1]
+        tel = exe_dict[exe]
+    except:
+        tel = ''
+
+    fnout += '_%s.out' % tel
 
     arr = np.concatenate([sig, tt, dm, dt*downsample, ref_freq_arr], axis=0)
     arr = arr.reshape(5, -1)
     arr = arr.transpose()
 
-    header = "S/N  Time  DM  Width_obs(s)  Freq_ref"
+    header = "S/N   Time   DM   Width_obs(s)   Freq_ref"
 
-    fnout = './test.txt'
     np.savetxt(fnout, arr, fmt=fmt, header=header)
     print("Saved to %s" % fnout)
 
