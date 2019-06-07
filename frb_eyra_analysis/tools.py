@@ -273,6 +273,10 @@ def read_singlepulse(fn, max_rows=None, beam=None):
             A = A[None]
         
         dm, sig, tt, downsample = A[:,5], A[:,0], A[:, 2], A[:, 3]
+    elif fn.split('.')[-1]=='out':
+        A = np.genfromtxt(fn, max_rows=max_rows)
+        sig, tt, dm, dt*downsample,
+
     else:
         print("Didn't recognize singlepulse file")
         return 
@@ -288,7 +292,7 @@ def homogenise_triggers(fn, dt, fnout='candidates', max_rows=None,
     tt += 4148*dm*(freq_ref_out**-2 - freq_ref_in**-2)
     ref_freq_arr = np.ones_like(dm)*freq_ref_out
 
-    fmt = '%5.2f  %8.3f  %8.2f  %3.7f  %8.2f'
+    fmt = '%5.2f  %8.3f  %8.2f  %6d  %3.7f  %8.2f'
     
     exe_dict = {'fredda': 'fredda', 
                 'cand' : 'heimdall', 
@@ -305,11 +309,11 @@ def homogenise_triggers(fn, dt, fnout='candidates', max_rows=None,
 
     fnout += '_%s.out' % tel
 
-    arr = np.concatenate([sig, tt, dm, dt*downsample, ref_freq_arr], axis=0)
-    arr = arr.reshape(5, -1)
+    arr = np.concatenate([sig, tt, dm, downsample*dt, downsample, ref_freq_arr], axis=0)
+    arr = arr.reshape(6, -1)
     arr = arr.transpose()
 
-    header = "S/N    Time    DM     Width_obs(s)     Freq_ref"
+    header = "S/N     Time     DM      Width_obs(s)     boxcar     Freq_ref"
 
     np.savetxt(fnout, arr, fmt=fmt, header=header)
     print("Saved to %s" % fnout)
