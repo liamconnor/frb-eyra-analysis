@@ -290,7 +290,9 @@ def homogenise_triggers(fn, dt, max_rows=None, freq_ref_in=1400., freq_ref_out=1
     fmt = '%5.2f  %8.3f  %8.2f  %3.5f  %8.2f'
 
     arr = np.concatenate([sig, tt, dm, dt*downsample, ref_freq_arr], axis=0)
-    arr = arr.reshape(-1, 5)
+    arr = arr.reshape(5, -1)
+    arr = arr.transpose()
+
     header = "S/N  Time  DM  Width_obs(s)  Freq_ref"
 
     fnout = './test.txt'
