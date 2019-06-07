@@ -24,7 +24,7 @@ amber_str = 'run_amber_args.py %s' % fnfil
 fredda_str = 'cudafdmt -t 512 -d 16384 -x 6 -o %s/%s.fredda %s' % (outdir, fnout, fnfil)
 
 print("\n==========Starting Amber==========")
-os.system(amber_str)
+#os.system(amber_str)
 print("\n==========Starting Heimdall==========")
 os.system(heimdall_str)
 os.system(heimdall_post_str)
@@ -33,6 +33,6 @@ os.system(fredda_str)
 
 print('\nStarting thing\n')
 blind_detection_args = (fntruth, fnout, fnout, fnout, fnout)
-blind_detection_str = 'blind_detection.py %s --fn_cand_files %s.cand,%s.fredda,%s.fredda --mk_plot --fnout %s.results' % blind_detection_args
+blind_detection_str = 'blind_detection.py %s --fn_cand_files %s.cand,%s.fredda,%s.fredda --fnout %s.results' % blind_detection_args
 print(blind_detection_str)
 os.system(blind_detection_str)
