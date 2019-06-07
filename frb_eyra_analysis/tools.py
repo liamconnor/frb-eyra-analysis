@@ -282,6 +282,20 @@ def read_singlepulse(fn, max_rows=None, beam=None):
 
     return dm, sig, tt, downsample
 
+def homogenise_triggers(fn, dt, max_rows=None, freq_ref_in=1400., freq_ref_out=1400.):
+    dm, sig, tt, downsample = read_singlepulse(fn, max_rows=None, beam=None)
+    tt += 4148*dm*(freq_ref_out**-2 - freq_ref_in**-2)
+    ref_freq_arr = np.ones_like(dm)*freq_ref_out
+
+    fmt = '%5.2f  %8.3f  %8.2f  %3.5f  %8.2f'
+
+    arr = np.concatenate([sig, tt, dm, dt*downsample, ref_freq_arr])
+    header = "S/N  Time  DM  Width_obs(s)  Freq_ref"
+
+    fnout = './test.txt'
+    np.savetxt(fnout, arr, fmt=fmt, header=header)
+    print("Saved to %s" % fnout)
+
 def get_triggers(fn, sig_thresh=5.0, dm_min=0, dm_max=np.inf, 
                  t_window=0.5, max_rows=None, t_max=np.inf,
                  sig_max=np.inf, dt=2*40.96, delta_nu_MHz=300./1536, 
