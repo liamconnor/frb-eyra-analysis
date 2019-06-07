@@ -275,7 +275,7 @@ def read_singlepulse(fn, max_rows=None, beam=None):
         dm, sig, tt, downsample = A[:,5], A[:,0], A[:, 2], A[:, 3]
     elif fn.split('.')[-1]=='out':
         A = np.genfromtxt(fn, max_rows=max_rows)
-        sig, tt, dm, dt*downsample,
+        sig, tt, dm, downsample = A[:, 0], A[:, 1], A[:, 2], A[:, 4]
 
     else:
         print("Didn't recognize singlepulse file")
@@ -292,7 +292,7 @@ def homogenise_triggers(fn, dt, fnout='candidates', max_rows=None,
     tt += 4148*dm*(freq_ref_out**-2 - freq_ref_in**-2)
     ref_freq_arr = np.ones_like(dm)*freq_ref_out
 
-    fmt = '%5.2f  %8.3f  %8.2f  %6d  %3.7f  %8.2f'
+    fmt = '%5.2f  %8.3f  %8.2f  %3.7f  %6d  %8.2f'
     
     exe_dict = {'fredda': 'fredda', 
                 'cand' : 'heimdall', 
