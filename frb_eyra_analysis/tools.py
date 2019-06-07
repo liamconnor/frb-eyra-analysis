@@ -309,7 +309,7 @@ def homogenise_triggers(fn, dt, fnout='candidates', max_rows=None,
     arr = arr.reshape(5, -1)
     arr = arr.transpose()
 
-    header = "S/N   Time   DM   Width_obs(s)   Freq_ref"
+    header = "S/N    Time    DM     Width_obs(s)     Freq_ref"
 
     np.savetxt(fnout, arr, fmt=fmt, header=header)
     print("Saved to %s" % fnout)
