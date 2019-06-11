@@ -888,7 +888,7 @@ if __name__=='__main__':
                         default=np.inf)
     parser.add_option('--t_window', dest='t_window', type='float',
                         help="", 
-                        default=0.1)
+                        default=0.5)
     parser.add_option('--outdir', dest='outdir', type='str',
                         help="directory to write data to", 
                         default='./data/')
