@@ -13,6 +13,7 @@ if VERSION_DEV:
 SCRIPTS = ["frb_eyra_analysis/blind_detection.py",
            "frb_eyra_analysis/run_search_software.py",
            "frb_eyra_analysis/run_amber_args.py",
+           "frb_eyra_analysis/plot_cand_comparison.py",
            "./tests/test_blind_detection.py", ]
 
 
