@@ -22,8 +22,8 @@ if __name__=='__main__':
                         hdf5 = save to hdf5. npy=save to npy. concat to \
                         save all triggers into one file",
                         default='hdf5')
-    parser.add_option('--mk_plot', dest='mk_plot', action='store_true', \
-                        help="make plot if True (default False)", default=False)
+#    parser.add_option('--mk_plot', dest='mk_plot', action='store_false', \
+#                        help="make plot if True (default False)", default=True)
     parser.add_option('--dm_min', dest='dm_min', type='float',
                         help="", 
                         default=0.0)
@@ -98,9 +98,8 @@ if __name__=='__main__':
 
     mk_plot = True
 
-    if options.mk_plot is True:
+    if mk_plot is True:
 
-        import plotter 
         plotter.plot_comparison(par_1a, par_2a, par_match_arra, ind_misseda, 
                                 figname=options.figname,
                                 algo1=options.algo1, algo2=options.algo2)
