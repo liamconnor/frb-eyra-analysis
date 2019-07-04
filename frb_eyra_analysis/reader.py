@@ -25,7 +25,7 @@ def write_to_fil(data, header, fn):
 		fn, header, spectra=data, mode='readwrite')
 	print("Writing to %s" % fn)
 
-def read_fil_data(fn, start=0, stop=1e7):
+def read_fil_data(fn, start=0, stop=1):
 	print("Reading filterbank file %s \n" % fn)
 	fil_obj = filterbank.FilterbankFile(fn)
 	header = fil_obj.header
